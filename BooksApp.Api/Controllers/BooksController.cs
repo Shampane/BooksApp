@@ -45,4 +45,48 @@ public class BooksController(AppDbContext dbContext, ILogger<BooksController> lo
             return BadRequest(ex.Message);
         }
     }
+    
+    [HttpPut]
+    public async Task<IActionResult> Update([FromQuery] Guid id, [FromBody] BooksUpdateRequest request)
+    {
+        try
+        {
+            var book = await dbContext.Books.FindAsync(id);
+            if (book == null)
+                throw new Exception("Book not found");
+            book.Title = request.Title;
+            book.Author = request.Author;
+            book.Rating = request.Rating;
+
+            dbContext.Entry(book).State = EntityState.Modified;
+            await dbContext.SaveChangesAsync();
+            logger.LogInformation($"Updated book with Id: '{id}'");
+            return Ok($"Updated book with Id: '{id}'");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex.Message);
+            return BadRequest(ex.Message);
+        }
+    }
+    
+    [HttpDelete]
+    public async Task<IActionResult> Remove([FromQuery] Guid id)
+    {
+        try
+        {
+            var book = await dbContext.Books.FindAsync(id);
+            if (book == null)
+                throw new Exception("Book not found");
+            dbContext.Books.Remove(book);
+            await dbContext.SaveChangesAsync();
+            logger.LogInformation($"Removed book with Id: '{id}'");
+            return Ok($"Removed book with Id: '{id}'");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex.Message);
+            return BadRequest(ex.Message);
+        }
+    }
 }
