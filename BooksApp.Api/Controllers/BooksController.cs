@@ -1,13 +1,14 @@
 using BooksApp.Api.Contracts;
 using BooksApp.Api.DataAccess;
 using BooksApp.Api.Models;
+using BooksApp.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BooksApp.Api.Controllers;
 
 [Controller]
-[Route("books")]
+[Route("api/books")]
 public class BooksController(AppDbContext dbContext, ILogger<BooksController> logger) : ControllerBase
 {
     [HttpGet]
@@ -15,7 +16,7 @@ public class BooksController(AppDbContext dbContext, ILogger<BooksController> lo
     {
         try
         {
-            var books = await dbContext.Books.ToListAsync();
+            var books = await BooksRepository.GetBooksList(dbContext);
             logger.LogInformation($"Returned {books.Count} books");
             return Ok(books);
         }
@@ -31,11 +32,7 @@ public class BooksController(AppDbContext dbContext, ILogger<BooksController> lo
     {
         try
         {
-            if (request.Rating < 1 || request.Rating > 10)
-                throw new Exception("Invalid rating value");
-            var book = new BookModel(request.Title, request.Author, request.Rating);
-            await dbContext.AddAsync(book);
-            await dbContext.SaveChangesAsync();
+            var book = await BooksRepository.CreateBook(dbContext, request);
             logger.LogInformation($"Created '{book.Title}' book");
             return Ok($"Created '{book.Title}' book");
         }
@@ -51,15 +48,7 @@ public class BooksController(AppDbContext dbContext, ILogger<BooksController> lo
     {
         try
         {
-            var book = await dbContext.Books.FindAsync(id);
-            if (book == null)
-                throw new Exception("Book not found");
-            book.Title = request.Title;
-            book.Author = request.Author;
-            book.Rating = request.Rating;
-
-            dbContext.Entry(book).State = EntityState.Modified;
-            await dbContext.SaveChangesAsync();
+            await BooksRepository.UpdateBook(dbContext, id, request);
             logger.LogInformation($"Updated book with Id: '{id}'");
             return Ok($"Updated book with Id: '{id}'");
         }
@@ -75,11 +64,7 @@ public class BooksController(AppDbContext dbContext, ILogger<BooksController> lo
     {
         try
         {
-            var book = await dbContext.Books.FindAsync(id);
-            if (book == null)
-                throw new Exception("Book not found");
-            dbContext.Books.Remove(book);
-            await dbContext.SaveChangesAsync();
+            await BooksRepository.RemoveBook(dbContext, id);
             logger.LogInformation($"Removed book with Id: '{id}'");
             return Ok($"Removed book with Id: '{id}'");
         }
