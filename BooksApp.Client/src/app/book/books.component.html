@@ -1,0 +1,20 @@
+<table cTable hover>
+	<thead cTableColor="info">
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Title</th>
+			<th scope="col">Author</th>
+			<th scope="col">Rating</th>
+		</tr>
+	</thead>
+	<tbody>
+		@for (book of this.service.list; track book.id; let index = $index) {
+			<tr>
+				<th>{{ index + 1 }}</th>
+				<td>{{ book.title }}</td>
+				<td>{{ book.author }}</td>
+				<td>{{ book.rating }}</td>
+			</tr>
+		}
+	</tbody>
+</table>
