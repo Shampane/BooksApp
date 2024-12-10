@@ -1,11 +1,3 @@
-bin/
-obj/
-.vscode/
-.idea/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/ 
-
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # Compiled output
