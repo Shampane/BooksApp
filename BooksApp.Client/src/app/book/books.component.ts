@@ -14,4 +14,14 @@ export class BooksComponent implements OnInit {
 	ngOnInit() {
 		this.service.getBooks();
 	}
+	handleClick(id: string) {
+		const result = confirm('Are you sure to remove this book?');
+		if (result) {
+			this.service.removeBook(id).subscribe({
+				error: err => {
+					console.log(err.message);
+				},
+			});
+		}
+	}
 }

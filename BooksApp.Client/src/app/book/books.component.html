@@ -1,5 +1,5 @@
 @if (this.service.list.length > 0) {
-	<table class="min-w-full mt-4 mb-4 border-collapse border-1 border-rose-100">
+	<table class="min-w-full mt-2 mb-2 border-collapse border-1 border-rose-100">
 		<thead class="bg-rose-800 text-white text-center">
 			<tr>
 				@for (col of this.columnsNames; track $index) {
@@ -25,6 +25,8 @@
 					</td>
 					<td class="px-4 py-2 border-1 border-rose-200 text-center">
 						<button
+							type="button"
+							(click)="handleClick(book.id)"
 							class="px-2 py-1 bg-rose-600 text-white rounded ease-in-out duration-200 hover:bg-rose-700">
 							Remove
 						</button>
