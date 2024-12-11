@@ -1,1 +1,36 @@
-<p>book-form works!</p>
+<form
+	[formGroup]="bookForm"
+	(ngSubmit)="handleSubmit()"
+	class="mb-2 mt-2 text-center">
+	<div>
+		<p class="uppercase text-gray-400">Write title of the book</p>
+		<input
+			type="text"
+			placeholder="Title..."
+			formControlName="title"
+			class="px-2 py-1 mb-2 border-2 border-gray-300 border-solid rounded w-64" />
+	</div>
+	<div>
+		<p class="uppercase text-gray-400">Write author of the book</p>
+		<input
+			type="text"
+			placeholder="Author..."
+			formControlName="author"
+			class="px-2 py-1 mb-2 border-2 border-gray-300 border-solid rounded w-64" />
+	</div>
+	<div>
+		<p class="uppercase text-gray-400">Write rating of the book (1-10)</p>
+		<input
+			type="number"
+			placeholder="Rating..."
+			formControlName="rating"
+			class="px-2 py-1 mb-2 border-2 border-gray-300 border-solid rounded w-64" />
+	</div>
+	<div>
+		<button
+			type="submit"
+			class="px-4 py-2 bg-rose-600 hover:bg-rose-700 ease-in-out duration-200 text-white text-lg rounded w-64">
+			Submit
+		</button>
+	</div>
+</form>

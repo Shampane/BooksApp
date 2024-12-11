@@ -1,7 +1,16 @@
-@import '@coreui/coreui/scss/coreui';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 *,
 *:before,
 *:after {
 	font-family: 'Aptos', sans-serif;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	border: none;
+	outline: none;
+	font-size: inherit;
 }

@@ -1,20 +1,36 @@
-<table cTable hover>
-	<thead cTableColor="info">
-		<tr>
-			<th scope="col">#</th>
-			<th scope="col">Title</th>
-			<th scope="col">Author</th>
-			<th scope="col">Rating</th>
-		</tr>
-	</thead>
-	<tbody>
-		@for (book of this.service.list; track book.id; let index = $index) {
+@if (this.service.list.length > 0) {
+	<table class="min-w-full mt-4 mb-4 border-collapse border-1 border-rose-100">
+		<thead class="bg-rose-800 text-white text-center">
 			<tr>
-				<th>{{ index + 1 }}</th>
-				<td>{{ book.title }}</td>
-				<td>{{ book.author }}</td>
-				<td>{{ book.rating }}</td>
+				@for (col of this.columnsNames; track $index) {
+					<th scope="col" class="px-4 py-2 border-1 border-rose-800 text-lg">
+						{{ col }}
+					</th>
+				}
 			</tr>
-		}
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			@for (book of this.service.list; track book.id; let index = $index) {
+				<tr class="even:bg-rose-50 odd:bg-white">
+					<td class="px-4 py-2 border-1 border-rose-200 text-center">
+						{{ index + 1 }}
+					</td>
+					<td class="px-4 py-2 border-1 border-rose-200">
+						{{ book.id }}
+					</td>
+					<td class="px-4 py-2 border-1 border-rose-200">{{ book.title }}</td>
+					<td class="px-4 py-2 border-1 border-rose-200">{{ book.author }}</td>
+					<td class="px-4 py-2 border-1 border-rose-200 text-center">
+						{{ book.rating }}
+					</td>
+					<td class="px-4 py-2 border-1 border-rose-200 text-center">
+						<button
+							class="px-2 py-1 bg-rose-600 text-white rounded ease-in-out duration-200 hover:bg-rose-700">
+							Remove
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
