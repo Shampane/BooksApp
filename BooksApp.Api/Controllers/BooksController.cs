@@ -11,7 +11,7 @@ namespace BooksApp.Api.Controllers;
 public class BooksController(AppDbContext dbContext, ILogger<BooksController> logger) : ControllerBase
 {
     [HttpGet]
-    [Authorize]
+    [Authorize(Roles = "Admin, Guest")]
     public async Task<IActionResult> Get()
     {
         try
@@ -28,7 +28,7 @@ public class BooksController(AppDbContext dbContext, ILogger<BooksController> lo
     }
 
     [HttpPost]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromBody] BooksCreateRequest request)
     {
         try

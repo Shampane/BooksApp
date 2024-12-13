@@ -1,6 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
 using BooksApp.Api.Contracts;
-using BooksApp.Api.DataAccess;
 using BooksApp.Api.Models;
 using BooksApp.Api.Service;
 using Microsoft.AspNetCore.Identity;
@@ -11,8 +10,8 @@ namespace BooksApp.Api.Controllers;
 [ApiController]
 [Route("api/account")]
 public class AccountController(
-    AppDbContext dbContext,
     UserManager<AppUser> userManager,
+    RoleManager<AppRole> roleManager,
     JwtHandler jwtHandler
 ) : ControllerBase
 {
@@ -26,18 +25,20 @@ public class AccountController(
         };
         var result = await userManager.CreateAsync(user, userDto.Password);
 
-        if (result.Succeeded)
-            return Ok(new
+        if (!result.Succeeded)
+            return BadRequest(new
                 UserRegisterResponse(
-                    true,
-                    "Registered user"
+                    false,
+                    "Invalid email or password"
                 )
             );
 
-        return BadRequest(new
+        await userManager.AddToRoleAsync(user, "Guest");
+
+        return Ok(new
             UserRegisterResponse(
-                false,
-                "Invalid email or password"
+                true,
+                "Registered user"
             )
         );
     }
@@ -54,7 +55,8 @@ public class AccountController(
                     null
                 )
             );
-        var token = await jwtHandler.GenerateJwtTokenAsync(user);
+        var roles = await userManager.GetRolesAsync(user);
+        var token = jwtHandler.GenerateJwtToken(user, roles);
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
         return Ok(new
             UserLoginResponse(
