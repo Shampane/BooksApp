@@ -1,19 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { BooksComponent } from './book/books.component';
-import { BookCreateComponent } from './book/book-create/book-create.component';
-import { BookRemoveComponent } from './book/book-remove/book-remove.component';
-import { BookUpdateComponent } from './book/book-update/book-update.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
 	selector: 'app-root',
-	imports: [
-		RouterOutlet,
-		BooksComponent,
-		BookCreateComponent,
-		BookRemoveComponent,
-		BookUpdateComponent,
-	],
+	imports: [RouterOutlet, RouterLink, RouterOutlet, CommonModule],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 })

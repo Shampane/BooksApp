@@ -13,7 +13,7 @@ export class BookRemoveComponent {
 	form = new FormGroup<IBookRemoveForm>({
 		id: new FormControl(),
 	});
-	requestStatus = '';
+	responseStatus = '';
 
 	constructor(public service: BookService) {}
 
@@ -25,11 +25,11 @@ export class BookRemoveComponent {
 				const request: IBookRemoveRequest = { id };
 				this.service.removeBook(request).subscribe({
 					next: () => {
-						this.requestStatus = 'Successfully removed';
+						this.responseStatus = 'Successfully removed';
 					},
 					error: err => {
 						console.log(err.message);
-						this.requestStatus = 'Error removing book';
+						this.responseStatus = 'Error removing book';
 					},
 				});
 			}

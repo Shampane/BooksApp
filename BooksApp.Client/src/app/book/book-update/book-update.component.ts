@@ -21,7 +21,7 @@ export class BookUpdateComponent {
 		author: new FormControl(),
 		rating: new FormControl(),
 	});
-	requestStatus = '';
+	responseStatus = '';
 
 	constructor(public service: BookService) {}
 	handleSubmit() {
@@ -38,11 +38,11 @@ export class BookUpdateComponent {
 			};
 			this.service.updateBook(request).subscribe({
 				next: () => {
-					this.requestStatus = 'Successfully updated';
+					this.responseStatus = 'Successfully updated';
 				},
 				error: err => {
 					console.log(err.message);
-					this.requestStatus = 'Error updating book';
+					this.responseStatus = 'Error updating book';
 				},
 			});
 		}

@@ -19,17 +19,16 @@ import { IBooksResponse } from '../book/books.interfaces';
 	providedIn: 'root',
 })
 export class BookService {
-	url: string = environment.apiUrl + '/books';
 	constructor(private http: HttpClient) {}
 
 	getBooks() {
-		const requestUrl = this.url;
-		return this.http.get<IBooksResponse>(requestUrl);
+		const url = `${environment.apiUrl}/books`;
+		return this.http.get<IBooksResponse>(url);
 	}
 
 	createBook(request: IBookCreateRequest) {
-		const requestUrl = this.url;
-		return this.http.post<IBookCreateResponse>(requestUrl, request);
+		const url = `${environment.apiUrl}/books`;
+		return this.http.post<IBookCreateResponse>(url, request);
 	}
 
 	updateBook(request: IBookUpdateRequest) {
@@ -39,13 +38,13 @@ export class BookService {
 			author: request.author,
 			rating: request.rating,
 		};
-		const requestUrl = `${this.url}?id=${id}`;
-		return this.http.put<IBookUpdateResponse>(requestUrl, body);
+		const url = `${environment.apiUrl}/books?id=${id}`;
+		return this.http.put<IBookUpdateResponse>(url, body);
 	}
 
 	removeBook(request: IBookRemoveRequest) {
 		const id = String(request.id);
-		const requestUrl = `${this.url}?id=${id}`;
-		return this.http.delete<IBookRemoveResponse>(requestUrl);
+		const url = `${environment.apiUrl}/books?id=${id}`;
+		return this.http.delete<IBookRemoveResponse>(url);
 	}
 }

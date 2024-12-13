@@ -1,6 +1,7 @@
 using BooksApp.Api.Contracts;
 using BooksApp.Api.DataAccess;
 using BooksApp.Api.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BooksApp.Api.Controllers;
@@ -10,7 +11,7 @@ namespace BooksApp.Api.Controllers;
 public class BooksController(AppDbContext dbContext, ILogger<BooksController> logger) : ControllerBase
 {
     [HttpGet]
-    //[Authorize(Roles = "Admin, Guest")]
+    [Authorize(Roles = "Admin, Guest")]
     public async Task<IActionResult> Get()
     {
         try
@@ -37,7 +38,7 @@ public class BooksController(AppDbContext dbContext, ILogger<BooksController> lo
     }
 
     [HttpPost]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromBody] BookCreateRequest request)
     {
         try
@@ -64,7 +65,7 @@ public class BooksController(AppDbContext dbContext, ILogger<BooksController> lo
     }
 
     [HttpPut]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Update([FromQuery] Guid id, [FromBody] BookUpdateRequest request)
     {
         try
@@ -91,7 +92,7 @@ public class BooksController(AppDbContext dbContext, ILogger<BooksController> lo
     }
 
     [HttpDelete]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Remove([FromQuery] Guid id)
     {
         try

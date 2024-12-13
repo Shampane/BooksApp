@@ -1,3 +1,12 @@
+<h1 class="m-2 text-center text-6xl font-bold text-rose-900">Books</h1>
+<h2 class="mt-8 text-center text-4xl font-bold">Create new book</h2>
+<app-book-create></app-book-create>
+<h2 class="mt-8 mb-0 text-center text-4xl font-bold">Remove book</h2>
+<app-book-remove></app-book-remove>
+<h2 class="mt-8 mb-0 text-center text-4xl font-bold">Update book</h2>
+<app-book-update></app-book-update>
+<h2 class="mt-8 mb-0 text-center text-4xl font-bold">List of books</h2>
+
 @if (data && data.list && data.list.length > 0) {
 	<table class="min-w-full mt-2 mb-2 border-collapse border-1 border-rose-100">
 		<thead class="bg-rose-800 text-white text-center">
@@ -19,7 +28,9 @@
 						{{ book.id }}
 					</td>
 					<td class="px-4 py-2 border-1 border-rose-200">{{ book.title }}</td>
-					<td class="px-4 py-2 border-1 border-rose-200">{{ book.author }}</td>
+					<td class="px-4 py-2 border-1 border-rose-200">
+						{{ book.author }}
+					</td>
 					<td class="px-4 py-2 border-1 border-rose-200 text-center">
 						{{ book.rating }}
 					</td>

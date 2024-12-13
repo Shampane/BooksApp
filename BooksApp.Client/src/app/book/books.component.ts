@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { BookService } from '../shared/book.service';
 import { IBooksResponse } from './books.interfaces';
 import { IBookRemoveRequest } from './book-remove/book-remove.interfaces';
+import { BookCreateComponent } from './book-create/book-create.component';
+import { BookRemoveComponent } from './book-remove/book-remove.component';
+import { BookUpdateComponent } from './book-update/book-update.component';
 
 @Component({
 	selector: 'app-book',
-	imports: [],
+	imports: [BookCreateComponent, BookRemoveComponent, BookUpdateComponent],
 	templateUrl: './books.component.html',
 	styleUrl: './books.component.scss',
 })

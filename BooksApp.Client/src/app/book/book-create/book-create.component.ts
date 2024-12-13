@@ -20,7 +20,7 @@ export class BookCreateComponent {
 		author: new FormControl(),
 		rating: new FormControl(),
 	});
-	requestStatus = '';
+	responseStatus = '';
 
 	constructor(public service: BookService) {}
 	handleSubmit() {
@@ -36,11 +36,11 @@ export class BookCreateComponent {
 			};
 			this.service.createBook(request).subscribe({
 				next: () => {
-					this.requestStatus = 'Successfully created';
+					this.responseStatus = 'Successfully created';
 				},
 				error: err => {
 					console.log(err.message);
-					this.requestStatus = 'Error creating book';
+					this.responseStatus = 'Error creating book';
 				},
 			});
 		}
