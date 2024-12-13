@@ -6,7 +6,7 @@ import {
 	ReactiveFormsModule,
 } from '@angular/forms';
 import { BookService } from '../../shared/book.service';
-import { IBookUpdateForm } from './book-update.interface';
+import { IBookUpdateForm, IBookUpdateRequest } from './book-update.interfaces';
 
 @Component({
 	selector: 'app-book-update',
@@ -15,7 +15,7 @@ import { IBookUpdateForm } from './book-update.interface';
 	styleUrl: './book-update.component.scss',
 })
 export class BookUpdateComponent {
-	updateForm = new FormGroup<IBookUpdateForm>({
+	form = new FormGroup<IBookUpdateForm>({
 		id: new FormControl(),
 		title: new FormControl(),
 		author: new FormControl(),
@@ -25,12 +25,19 @@ export class BookUpdateComponent {
 
 	constructor(public service: BookService) {}
 	handleSubmit() {
-		const isEmptyForm = Object.values(this.updateForm.value).some(
+		const isEmptyForm = Object.values(this.form.value).some(
 			value => value === null || value === 'null'
 		);
 		if (!isEmptyForm) {
-			this.service.updateBook(this.updateForm).subscribe({
-				next: response => {
+			const valuesObject = this.form.value;
+			const request: IBookUpdateRequest = {
+				id: valuesObject.id as string,
+				title: valuesObject.title as string,
+				author: valuesObject.author as string,
+				rating: valuesObject.rating as number,
+			};
+			this.service.updateBook(request).subscribe({
+				next: () => {
 					this.requestStatus = 'Successfully updated';
 				},
 				error: err => {

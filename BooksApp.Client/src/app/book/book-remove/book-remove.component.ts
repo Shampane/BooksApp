@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { BookService } from '../../shared/book.service';
-import { IRemoveForm } from './book-remove.interface';
+import { IBookRemoveForm, IBookRemoveRequest } from './book-remove.interfaces';
 
 @Component({
 	selector: 'app-book-remove',
@@ -10,7 +10,7 @@ import { IRemoveForm } from './book-remove.interface';
 	styleUrl: './book-remove.component.scss',
 })
 export class BookRemoveComponent {
-	removeForm = new FormGroup<IRemoveForm>({
+	form = new FormGroup<IBookRemoveForm>({
 		id: new FormControl(),
 	});
 	requestStatus = '';
@@ -18,11 +18,12 @@ export class BookRemoveComponent {
 	constructor(public service: BookService) {}
 
 	handleSubmit() {
-		const id = this.removeForm.value.id;
-		if (id !== null && id !== '') {
+		const id = this.form.value.id as string;
+		if (id && id !== '') {
 			const result = confirm('Are you sure to remove this book?');
 			if (result) {
-				this.service.removeBook(id!).subscribe({
+				const request: IBookRemoveRequest = { id };
+				this.service.removeBook(request).subscribe({
 					next: () => {
 						this.requestStatus = 'Successfully removed';
 					},

@@ -1,4 +1,4 @@
-@if (this.service.list.length > 0) {
+@if (data && data.list && data.list.length > 0) {
 	<table class="min-w-full mt-2 mb-2 border-collapse border-1 border-rose-100">
 		<thead class="bg-rose-800 text-white text-center">
 			<tr>
@@ -10,7 +10,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@for (book of this.service.list; track book.id; let index = $index) {
+			@for (book of data?.list; track book.id; let index = $index) {
 				<tr class="even:bg-rose-50 odd:bg-white">
 					<td class="px-4 py-2 border-1 border-rose-200 text-center">
 						{{ index + 1 }}

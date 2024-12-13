@@ -5,7 +5,7 @@ import {
 	FormsModule,
 	ReactiveFormsModule,
 } from '@angular/forms';
-import { ICreateForm } from './book-create.interface';
+import { IBookCreateForm, IBookCreateRequest } from './book-create.interfaces';
 import { BookService } from '../../shared/book.service';
 
 @Component({
@@ -15,7 +15,7 @@ import { BookService } from '../../shared/book.service';
 	styleUrl: './book-create.component.scss',
 })
 export class BookCreateComponent {
-	createForm = new FormGroup<ICreateForm>({
+	form = new FormGroup<IBookCreateForm>({
 		title: new FormControl(),
 		author: new FormControl(),
 		rating: new FormControl(),
@@ -24,15 +24,22 @@ export class BookCreateComponent {
 
 	constructor(public service: BookService) {}
 	handleSubmit() {
-		const isEmptyForm = Object.values(this.createForm.value).some(
+		const isEmptyForm = Object.values(this.form.value).some(
 			value => value === null || value === 'null'
 		);
 		if (!isEmptyForm) {
-			this.service.createBook(this.createForm).subscribe({
+			const valuesObject = this.form.value;
+			const request: IBookCreateRequest = {
+				title: valuesObject.title as string,
+				author: valuesObject.author as string,
+				rating: valuesObject.rating as number,
+			};
+			this.service.createBook(request).subscribe({
 				next: () => {
 					this.requestStatus = 'Successfully created';
 				},
-				error: () => {
+				error: err => {
+					console.log(err.message);
 					this.requestStatus = 'Error creating book';
 				},
 			});

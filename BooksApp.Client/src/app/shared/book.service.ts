@@ -1,49 +1,51 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Config } from 'typescript-eslint';
 import { environment } from '../../environments/environment.development';
-import { IBookModel } from './book.model';
-import { ICreateForm } from '../book/book-create/book-create.interface';
-import { FormGroup } from '@angular/forms';
-import { IBookUpdateForm } from '../book/book-update/book-update.interface';
+import {
+	IBookCreateRequest,
+	IBookCreateResponse,
+} from '../book/book-create/book-create.interfaces';
+import {
+	IBookUpdateRequest,
+	IBookUpdateResponse,
+} from '../book/book-update/book-update.interfaces';
+import {
+	IBookRemoveRequest,
+	IBookRemoveResponse,
+} from '../book/book-remove/book-remove.interfaces';
+import { IBooksResponse } from '../book/books.interfaces';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class BookService {
 	url: string = environment.apiUrl + '/books';
-	list: IBookModel[] = [];
 	constructor(private http: HttpClient) {}
 
 	getBooks() {
-		this.http.get<Config>(this.url).subscribe({
-			next: response => {
-				this.list = response as IBookModel[];
-			},
-			error: err => {
-				console.log(err.message);
-			},
-		});
+		const requestUrl = this.url;
+		return this.http.get<IBooksResponse>(requestUrl);
 	}
 
-	createBook(book: FormGroup<ICreateForm>) {
-		return this.http.post(this.url, book.value, { responseType: 'text' });
+	createBook(request: IBookCreateRequest) {
+		const requestUrl = this.url;
+		return this.http.post<IBookCreateResponse>(requestUrl, request);
 	}
 
-	updateBook(book: FormGroup<IBookUpdateForm>) {
-		const id = String(book.value.id);
-		const { title, author, rating } = book.value;
+	updateBook(request: IBookUpdateRequest) {
+		const id = String(request.id);
 		const body = {
-			title: String(title),
-			author: String(author),
-			rating: String(rating),
+			title: request.title,
+			author: request.author,
+			rating: request.rating,
 		};
-		return this.http.put(this.url + '?id=' + id, body, {
-			responseType: 'text',
-		});
+		const requestUrl = `${this.url}?id=${id}`;
+		return this.http.put<IBookUpdateResponse>(requestUrl, body);
 	}
 
-	removeBook(id: string) {
-		return this.http.delete(this.url + '?id=' + id, { responseType: 'text' });
+	removeBook(request: IBookRemoveRequest) {
+		const id = String(request.id);
+		const requestUrl = `${this.url}?id=${id}`;
+		return this.http.delete<IBookRemoveResponse>(requestUrl);
 	}
 }

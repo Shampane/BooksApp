@@ -20,7 +20,7 @@ public static class BooksRepository
         return await dbContext.Books.ToListAsync();
     }
 
-    public static async Task<BookModel> CreateBook(AppDbContext dbContext, BooksCreateRequest request)
+    public static async Task<BookModel> CreateBook(AppDbContext dbContext, BookCreateRequest request)
     {
         if (request.Rating < 1 || request.Rating > 10)
             throw new Exception("Invalid rating value");
@@ -30,7 +30,7 @@ public static class BooksRepository
         return book;
     }
 
-    public static async Task UpdateBook(AppDbContext dbContext, Guid id, BooksUpdateRequest request)
+    public static async Task UpdateBook(AppDbContext dbContext, Guid id, BookUpdateRequest request)
     {
         var book = await FindBookById(dbContext, id);
         book.Title = request.Title;
