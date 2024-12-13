@@ -1,10 +1,10 @@
 using BooksApp.Api.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace BooksApp.Api.DataAccess;
 
-public class AppDbContext(IConfiguration configuration) : DbContext
+public class AppDbContext(IConfiguration configuration) : IdentityDbContext<AppUser>
 {
     public DbSet<BookModel> Books { get; set; }
 

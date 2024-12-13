@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Config } from 'typescript-eslint';
 import { environment } from '../../environments/environment.development';
 import { IBookModel } from './book.model';
-import { ICreateForm } from '../book/book-form/book-create.interface';
+import { ICreateForm } from '../book/book-create/book-create.interface';
 import { FormGroup } from '@angular/forms';
-import { IRemoveForm } from '../book/book-remove/book-remove.interface';
+import { IBookUpdateForm } from '../book/book-update/book-update.interface';
 
 @Injectable({
 	providedIn: 'root',
@@ -28,6 +28,19 @@ export class BookService {
 
 	createBook(book: FormGroup<ICreateForm>) {
 		return this.http.post(this.url, book.value, { responseType: 'text' });
+	}
+
+	updateBook(book: FormGroup<IBookUpdateForm>) {
+		const id = String(book.value.id);
+		const { title, author, rating } = book.value;
+		const body = {
+			title: String(title),
+			author: String(author),
+			rating: String(rating),
+		};
+		return this.http.put(this.url + '?id=' + id, body, {
+			responseType: 'text',
+		});
 	}
 
 	removeBook(id: string) {

@@ -24,13 +24,18 @@ export class BookCreateComponent {
 
 	constructor(public service: BookService) {}
 	handleSubmit() {
-		this.service.createBook(this.createForm).subscribe({
-			next: () => {
-				this.requestStatus = 'Successfully created';
-			},
-			error: () => {
-				this.requestStatus = 'Error creating book';
-			},
-		});
+		const isEmptyForm = Object.values(this.createForm.value).some(
+			value => value === null || value === 'null'
+		);
+		if (!isEmptyForm) {
+			this.service.createBook(this.createForm).subscribe({
+				next: () => {
+					this.requestStatus = 'Successfully created';
+				},
+				error: () => {
+					this.requestStatus = 'Error creating book';
+				},
+			});
+		}
 	}
 }

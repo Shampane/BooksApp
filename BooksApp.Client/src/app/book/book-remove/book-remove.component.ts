@@ -19,7 +19,7 @@ export class BookRemoveComponent {
 
 	handleSubmit() {
 		const id = this.removeForm.value.id;
-		if (id !== null) {
+		if (id !== null && id !== '') {
 			const result = confirm('Are you sure to remove this book?');
 			if (result) {
 				this.service.removeBook(id!).subscribe({
