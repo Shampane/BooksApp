@@ -1,17 +1,17 @@
 using BooksApp.Api.Contracts;
 using BooksApp.Api.DataAccess;
-using BooksApp.Api.Models;
 using BooksApp.Api.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BooksApp.Api.Controllers;
 
-[Controller]
+[ApiController]
 [Route("api/books")]
 public class BooksController(AppDbContext dbContext, ILogger<BooksController> logger) : ControllerBase
 {
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> Get()
     {
         try
@@ -28,6 +28,7 @@ public class BooksController(AppDbContext dbContext, ILogger<BooksController> lo
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> Create([FromBody] BooksCreateRequest request)
     {
         try
@@ -42,8 +43,9 @@ public class BooksController(AppDbContext dbContext, ILogger<BooksController> lo
             return BadRequest(ex.Message);
         }
     }
-    
+
     [HttpPut]
+    [Authorize]
     public async Task<IActionResult> Update([FromQuery] Guid id, [FromBody] BooksUpdateRequest request)
     {
         try
@@ -58,8 +60,9 @@ public class BooksController(AppDbContext dbContext, ILogger<BooksController> lo
             return BadRequest(ex.Message);
         }
     }
-    
+
     [HttpDelete]
+    [Authorize]
     public async Task<IActionResult> Remove([FromQuery] Guid id)
     {
         try
