@@ -1,15 +1,16 @@
 <main class="w-full max-w-6xl m-auto px-2">
-	<h1>Angular Router App</h1>
-	<nav>
-		<ul>
-			<li>
-				<a routerLink="/">Home</a>
-			</li>
-			<li>
+	<div class="flex items-center justify-between">
+		<h1 class="text-4xl font-bold my-2">Angular Authorization App</h1>
+		<nav class="flex gap-12 my-2 [&_*]:text-lg">
+			<a routerLink="/">Home</a>
+			@if (!token) {
 				<a routerLink="/login">Login</a>
-			</li>
-		</ul>
-	</nav>
+				<a routerLink="/register">Register</a>
+			} @else {
+				<app-login-out></app-login-out>
+			}
+		</nav>
+	</div>
 
 	<router-outlet></router-outlet>
 </main>

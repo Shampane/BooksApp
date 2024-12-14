@@ -1,16 +1,16 @@
 import { FormControl } from '@angular/forms';
 
-export interface ILoginRequest {
+export interface IAuthRequest {
 	email: string;
 	password: string;
 }
 
-export interface ILoginForm {
+export interface IAuthForm {
 	email: FormControl<string>;
 	password: FormControl<string>;
 }
 
-export interface ILoginResponse {
+export interface IAuthResponse {
 	success: boolean;
 	message: string;
 	token?: string;

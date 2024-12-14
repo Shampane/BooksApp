@@ -26,6 +26,9 @@ export class BookRemoveComponent {
 				this.service.removeBook(request).subscribe({
 					next: () => {
 						this.responseStatus = 'Successfully removed';
+						setTimeout(() => {
+							window.location.reload();
+						}, 1000);
 					},
 					error: err => {
 						console.log(err.message);

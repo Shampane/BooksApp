@@ -37,6 +37,9 @@ export class BookCreateComponent {
 			this.service.createBook(request).subscribe({
 				next: () => {
 					this.responseStatus = 'Successfully created';
+					setTimeout(() => {
+						window.location.reload();
+					}, 1000);
 				},
 				error: err => {
 					console.log(err.message);

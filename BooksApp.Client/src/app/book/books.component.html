@@ -1,49 +1,55 @@
-<h1 class="m-2 text-center text-6xl font-bold text-rose-900">Books</h1>
-<h2 class="mt-8 text-center text-4xl font-bold">Create new book</h2>
-<app-book-create></app-book-create>
-<h2 class="mt-8 mb-0 text-center text-4xl font-bold">Remove book</h2>
-<app-book-remove></app-book-remove>
-<h2 class="mt-8 mb-0 text-center text-4xl font-bold">Update book</h2>
-<app-book-update></app-book-update>
-<h2 class="mt-8 mb-0 text-center text-4xl font-bold">List of books</h2>
+@if (data && data.success) {
+	<h1 class="mt-4 text-center text-5xl font-bold text-rose-900">Books</h1>
 
-@if (data && data.list && data.list.length > 0) {
-	<table class="min-w-full mt-2 mb-2 border-collapse border-1 border-rose-100">
-		<thead class="bg-rose-800 text-white text-center">
-			<tr>
-				@for (col of this.columnsNames; track $index) {
-					<th scope="col" class="px-4 py-2 border-1 border-rose-800 text-lg">
-						{{ col }}
-					</th>
-				}
-			</tr>
-		</thead>
-		<tbody>
-			@for (book of data?.list; track book.id; let index = $index) {
-				<tr class="even:bg-rose-50 odd:bg-white">
-					<td class="px-4 py-2 border-1 border-rose-200 text-center">
-						{{ index + 1 }}
-					</td>
-					<td class="px-4 py-2 border-1 border-rose-200">
-						{{ book.id }}
-					</td>
-					<td class="px-4 py-2 border-1 border-rose-200">{{ book.title }}</td>
-					<td class="px-4 py-2 border-1 border-rose-200">
-						{{ book.author }}
-					</td>
-					<td class="px-4 py-2 border-1 border-rose-200 text-center">
-						{{ book.rating }}
-					</td>
-					<td class="px-4 py-2 border-1 border-rose-200 text-center">
-						<button
-							type="button"
-							(click)="handleClick(book.id)"
-							class="px-2 py-1 bg-rose-600 text-white rounded ease-in-out duration-200 hover:bg-rose-700">
-							Remove
-						</button>
-					</td>
+	@if (data && data.success && data.list && data.list.length > 0) {
+		<h2 class="mt-8 mb-0 text-center text-4xl font-bold">List of books</h2>
+		<table
+			class="min-w-full mt-2 mb-2 border-collapse border-1 border-rose-100">
+			<thead class="bg-rose-800 text-white text-center">
+				<tr>
+					@for (col of this.columnsNames; track $index) {
+						<th scope="col" class="px-4 py-2 border-1 border-rose-800 text-lg">
+							{{ col }}
+						</th>
+					}
 				</tr>
-			}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				@for (book of data?.list; track book.id; let index = $index) {
+					<tr class="even:bg-rose-50 odd:bg-white">
+						<td class="px-4 py-2 border-1 border-rose-200 text-center">
+							{{ index + 1 }}
+						</td>
+						<td class="px-4 py-2 border-1 border-rose-200">
+							{{ book.id }}
+						</td>
+						<td class="px-4 py-2 border-1 border-rose-200">{{ book.title }}</td>
+						<td class="px-4 py-2 border-1 border-rose-200">
+							{{ book.author }}
+						</td>
+						<td class="px-4 py-2 border-1 border-rose-200 text-center">
+							{{ book.rating }}
+						</td>
+						<td class="px-4 py-2 border-1 border-rose-200 text-center">
+							<button
+								type="button"
+								(click)="handleClick(book.id)"
+								class="px-2 py-1 bg-rose-600 text-white rounded ease-in-out duration-200 hover:bg-rose-700">
+								Remove
+							</button>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+
+	<app-book-create></app-book-create>
+	<app-book-remove></app-book-remove>
+	<app-book-update></app-book-update>
+} @else {
+	<div class="text-center my-8 font-bold text-2xl text-gray-500">
+		<p>There doesn't seem to be anything here :(</p>
+		<p>Register or log in to see the contents</p>
+	</div>
 }

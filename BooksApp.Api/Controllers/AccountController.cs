@@ -23,6 +23,13 @@ public class AccountController(
             UserName = userDto.Email,
             Email = userDto.Email
         };
+        if (await userManager.FindByEmailAsync(userDto.Email) != null)
+            return BadRequest(new
+                UserRegisterResponse(
+                    false,
+                    "User already exists"
+                )
+            );
         var result = await userManager.CreateAsync(user, userDto.Password);
 
         if (!result.Succeeded)

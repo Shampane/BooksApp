@@ -39,6 +39,9 @@ export class BookUpdateComponent {
 			this.service.updateBook(request).subscribe({
 				next: () => {
 					this.responseStatus = 'Successfully updated';
+					setTimeout(() => {
+						window.location.reload();
+					}, 1000);
 				},
 				error: err => {
 					console.log(err.message);

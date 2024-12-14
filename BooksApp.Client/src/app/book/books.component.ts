@@ -36,6 +36,7 @@ export class BooksComponent implements OnInit {
 					console.log(err.message);
 				},
 			});
+			window.location.reload();
 		}
 	}
 }
